@@ -16,13 +16,13 @@ def initial_parameters() -> tuple:
 
 model, parser, client = initial_parameters()
 
-loader = TextLoader('base_conhecimento.txt')
+loader = TextLoader('data/base_conhecimento.txt')
 documents = loader.load()
 
-loader = PyPDFLoader('base_conhecimento.pdf')
+loader = PyPDFLoader('data/base_conhecimento.pdf')
 documents = loader.load()
 
-loader = CSVLoader('base_conhecimento.csv')
+loader = CSVLoader('data/base_conhecimento.csv')
 documents = loader.load()
 
 prompt_base_conhecimento = PromptTemplate(
@@ -39,7 +39,7 @@ chain = prompt_base_conhecimento | model | StrOutputParser()
 response = chain.invoke(
     {
         'contexto': '\n'.join(doc.page_content for doc in documents),
-        'pergunta': 'Qual carro vale mais?',
+        'pergunta': 'Quantas marchas posseu um fiat marea?',
     }
 )
 
