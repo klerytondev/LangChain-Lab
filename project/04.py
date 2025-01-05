@@ -1,15 +1,22 @@
 import os
+from dotenv import load_dotenv
 from langchain import hub
 from langchain.agents import Tool, create_react_agent, AgentExecutor
 from langchain.prompts import PromptTemplate
 from langchain_community.tools import DuckDuckGoSearchRun
 from langchain_experimental.utilities import PythonREPL
-from langchain_openai import ChatOpenAI
+from langchain_openai import ChatOpenAI, OpenAI
+from langchain_core.output_parsers import StrOutputParser
 
 
-os.environ['OPENAI_API_KEY'] = 'SUA CHAVE DE API'
+def initial_parameters() -> tuple:
+    load_dotenv()
+    client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+    model = ChatOpenAI(model="gpt-4o-mini")
+    parser = StrOutputParser()
+    return model, parser, client
 
-model = ChatOpenAI(model='gpt-3.5-turbo')
+model, parser, client = initial_parameters() 
 
 prompt = '''
 Como assistente financeiro pessoal, que responderá as perguntas dando dicas financeiras e de investimentos.
